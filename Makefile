@@ -114,32 +114,12 @@ integration-test-v2: azuredisk-v2
 	go test -v -timeout=30m ./test/integration --temp-use-driver-v2
 
 .PHONY: e2e-bootstrap
-e2e-bootstrap: install-helm
-	docker pull $(IMAGE_TAG) || make container-all push-manifest
-ifdef TEST_WINDOWS
-	helm install azuredisk-csi-driver charts/${CHART_VERSION}/azuredisk-csi-driver --namespace kube-system --wait --timeout=15m -v=5 --debug \
-		${E2E_HELM_OPTIONS} \
-		--set windows.enabled=true \
-		--set windows.useHostProcessContainers=${WINDOWS_USE_HOST_PROCESS_CONTAINERS} \
-		--set linux.enabled=false \
-		--set controller.replicas=1 \
-		--set controller.logLevel=6 \
-		--set node.logLevel=6 \
-		--set cloud=$(CLOUD)
-else
-	helm install azuredisk-csi-driver charts/${CHART_VERSION}/azuredisk-csi-driver --namespace kube-system --wait --timeout=15m -v=5 --debug \
-		${E2E_HELM_OPTIONS} \
-		--set snapshot.enabled=true \
-		--set cloud=$(CLOUD)
-endif
 
 .PHONY: install-helm
 install-helm:
-	curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 .PHONY: e2e-teardown
 e2e-teardown:
-	helm delete azuredisk-csi-driver --namespace kube-system
 
 .PHONY: azuredisk
 azuredisk:

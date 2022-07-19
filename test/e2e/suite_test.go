@@ -48,7 +48,7 @@ const (
 	testWindowsEnvVar      = "TEST_WINDOWS"
 	testWinServerVerEnvVar = "WINDOWS_SERVER_VERSION"
 	cloudNameEnvVar        = "AZURE_CLOUD_NAME"
-	defaultReportDir       = "/workspace/_artifacts"
+	defaultReportDir       = "./workspace/_artifacts"
 	inTreeStorageClass     = "kubernetes.io/azure-disk"
 )
 
